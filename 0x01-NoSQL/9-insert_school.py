@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Python function that inserts a new
 document in a collection based on kwargs"""
+
 from typing import Any
 from pymongo import collection
 
