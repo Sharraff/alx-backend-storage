@@ -139,3 +139,27 @@ class Cache:
           int: The retrieved integer value.
       """
       return self.get(key, fn=lambda v: int(v))
+
+def replay(method: Callable):
+    """
+    Replays the history of a function's calls
+    and their inputs and outputs.
+
+    Args:
+        f: The function whose history will be replayed.
+
+    Returns:
+        None
+    """
+    key = method.__qualname__
+    in_key = key + ':inputs'
+    out_key = key + ':outputs'
+    count = method.__self__.get_int(key)
+    redis = method.__self__._redis
+    inputs = redis.lrange(in_key, 0, -1)
+    outputs = redis.lrange(out_key, 0, -1)
+    print(f'Cache.store was called {count} times')
+    for input, output in zip(inputs, outputs):
+        output = output.decode('utf-8')
+        input = input.decode('utf-8')
+        print(f"Cache.store(*({input},)) -> {output}")
