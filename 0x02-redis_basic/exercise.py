@@ -5,6 +5,7 @@ import redis
 from uuid import uuid4
 from typing import Callable, Any, Optional, Union
 
+
 class Cache:
     """
     A class that provides caching functionality
@@ -19,7 +20,8 @@ class Cache:
         """
         self._redis = redis.Redis()
         self._redis.flushdb()
-        
+
+
     def store(self, data: Union[str, float, int, bytes]) -> str:
         """
         Stores data in the cache and returns a unique key.
